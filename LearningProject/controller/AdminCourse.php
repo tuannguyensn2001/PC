@@ -4,19 +4,21 @@
 class AdminCourse extends  Controller
 {
     var $course;
+    var $category;
     var $data=array();
     public function __construct()
     {
+        $this->category=$this->model("AdminCategoryModel");
 
         $this->course = $this->model("AdminCourseModel");
+        $this->data['listCategory']=$this->category->getCategory();
+        $this->data['listCourse']=$this->listCourse();
     }
 
-    public function index()
+    public function viewCourse()
     {
 
-        $category=$this->model("AdminCategoryModel");
-        $this->data['listCategory']=$category->getCategory();
-        $this->data['listCourse']=$this->listCourse();
+
         $this->view("Admin/CourseManager/index",$this->data);
     }
     public function listCourse()
@@ -26,7 +28,7 @@ class AdminCourse extends  Controller
     }
     public function showCourse()
     {
-        $category=$this->model("AdminCategoryModel");
+
 
         $id=$_POST['content'];
         $courseDetails['courseDetails']=$this->course->getCourse($id)[0];
@@ -43,8 +45,22 @@ class AdminCourse extends  Controller
 
 
        $this->course->editCourse($data);
-       header("Location: ../AdminCourse");
+
+       header("Location: viewCourse");
 
     }
+    public function addCourse()
+    {
+
+        $this->view("Admin/CourseManager/addCourse",$this->data);
+    }
+    public function createCourse()
+    {
+     $this->course->createCourse();
+
+
+     header("Location: viewCourse");
+    }
+
 
 }

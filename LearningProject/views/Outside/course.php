@@ -1,5 +1,17 @@
 <?php
 $id_lesson=$data['id_lesson'];
+$name_course=$data['lesson'][0]['course'];
+if ($id_lesson==1) $name_lesson=$data['lesson'][0]['name'];
+else{
+    foreach ($data['lesson'] as $index){
+        if ($index['id'] == $id_lesson) $name_lesson=$index['name'];
+    }
+}
+
+foreach($data['lesson'] as $index){
+    if ($index['id']== $id_lesson) $link=$index['video'];
+if ($id_lesson ==1) $link=$data['lesson'][0]['video'];
+}
 
 
 
@@ -15,7 +27,21 @@ $id_lesson=$data['id_lesson'];
         <link rel="stylesheet" href="../../../views/Outside/css/style.css">
         <link rel="stylesheet" href="../../../views/Outside/css/mediaquery.css">
         <link rel="stylesheet" href="../../../views/Outside/css/course-style.css">
+        <style>
+            .warning-video{
+                height: 558px;
 
+                background-color: black;
+
+            }
+            .c-video div{
+                left: 0;
+                width: 100%;
+            }
+            .c-video div div *{
+                color: white;
+            }
+        </style>
     </head>
 <body>
     <header>
@@ -54,25 +80,56 @@ $id_lesson=$data['id_lesson'];
    <div class="background">
        
          <div class="background-header">
-             <h2><?=$data['lesson'][1]['course']?></h2>
-             <h1><?=$data['lesson'][$id_lesson-1]['name']?></h1>
+             <h2><?=$name_course?></h2>
+             <h1><?=$name_lesson?></h1>
 
             <div class="c-video">
+<!--                --><?php
+//
+//                if (isset($data['check']) || $id_lesson == 1 || $data['check']){
+//                ?>
+<!--                    <iframe width="100%" height="558" allowfullscreen-->
+<!--                            src="https://www.youtube.com/embed/--><?//=$link?><!--">-->
+<!--                    </iframe>-->
+<!---->
+<!---->
+<!--                --><?php //}
+//
+//                elseif (isset($data['check']) && $data['check'] == 0){ ?>
+<!---->
+<!--                    <div class="warning-video">-->
+<!--                       <div class="warning-video-content">-->
+<!--                        <h1>Bạn chưa mua khóa học này</h1>-->
+<!--                        <h5 >Thành viên mua khóa học sẽ được giải đáp đầy đủ thắc mắc</h5>-->
+<!--                       </div>-->
+<!---->
+<!--                    </div>-->
+<!---->
+<!--               --><?php // } ?>
+
                 <?php
-                if (isset($data['check']) || $id_lesson == 1){
-                if ( $id_lesson== 1 || $data['check'] == 1){ ?>
-                <video src="../../../videoplayback.mp4"  class="video" controls  >
+                if ($id_lesson==1){ ?>
+                <iframe width="100%" height="558" allowfullscreen
+                                                src="https://www.youtube.com/embed/<?=$link?>">
+                                        </iframe>
+               <?php  }
+                elseif ($id_lesson!=1 && isset($data['check']) && $data['check'] == 1){ ?>
+                    <iframe width="100%" height="558" allowfullscreen
+                            src="https://www.youtube.com/embed/<?=$link?>">
+                    </iframe>
+               <?php } elseif ($id_lesson != 1 && isset($data['check']) && $data['check']==0 || !isset($data['check'])) {?>
+                <div class="warning-video">-->
+                                           <div class="warning-video-content">
+                                            <h1>Bạn chưa mua khóa học này</h1>
+                                            <h5 >Thành viên mua khóa học sẽ được giải đáp đầy đủ thắc mắc</h5>
+                                           </div>
 
-                </video>
+                                        </div>
+                <?php } ?>
 
 
-                <?php }} else{ ?>
-                    <video src="../../../videoplayback.mp4"  class="video"    ></video>
-                    <div class="warning">
-                        <h1>Chưa mua</h1>
-                    </div>
 
-               <?php  } ?>
+
         </div>
 
      </div>
@@ -91,12 +148,21 @@ $id_lesson=$data['id_lesson'];
            </div>
            <div class="course-list">
                <?php
-
-               foreach($data['lesson'] as $index){ ?>
-                   <a href="<?=$index['id']?>" class="btn">
+                $count=0;
+               foreach($data['lesson'] as $index){
+                   $count++;
+                   if ($count == 1){
+                   ?>
+                   <a href="1" class="btn">
                        <span><?=$index['name']?></span>
                    </a>
-                <?php  } ?>
+                       <?php } else{ ?>
+                       <a href="<?=$index['id']?>" class="btn">
+                           <span><?=$index['name']?></span>
+                       </a>
+
+
+                <?php } } ?>
 
 
 

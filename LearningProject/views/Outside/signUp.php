@@ -46,10 +46,11 @@
     <section>
         <div class="container ">
           <div class="form-login">
-              <form action="signInAction" method="post">
-                <?php if(isset($_COOKIE['isLogin'])){
-                    echo $_COOKIE['isLogin'];
-                } ?>
+              <form action="signUpAction" method="post">
+              <div class="form-group">
+                  <label for="">Username</label>
+                  <input type="text" name="username" class="form-control">
+              </div>
                   <div class="form-group">
                       <label for="">Email</label>
                       <input type="text" class="form-control" name="email">
@@ -59,9 +60,8 @@
                     <input type="password" class="form-control" name="password">
                    
                 </div>
-                <button type="submit" class="btn btn-primary">Đăng nhập</button>
-                <p>Bạn chưa có tài khoản ?</p>
-                <a href="signUp">Đăng ký ngay</a>
+                <button type="submit" class="btn btn-primary">Đăng ký</button>
+
               </form>
          
           </div>

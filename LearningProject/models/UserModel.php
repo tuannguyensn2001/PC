@@ -18,8 +18,9 @@ class UserModel extends Model
         foreach ($result as $index){
             $data[$index['id']]=0;
         }
-        $a=json_encode($data);
-        echo $a;
+
+
+        return json_encode($data);
     }
     public function getMyCourse($id){
         $query="SELECT mycourse FROM users WHERE id=$id";
@@ -36,4 +37,15 @@ class UserModel extends Model
 
 
     }
+    public function  createUser($user)
+    {
+        $myCourse=$this->checkCourse();
+        $user['mycourse']=$myCourse;
+        $user['is_active']=1;
+        $this->create($user,"users");
+
+
+        header("Location: signIn");
+    }
+
 }

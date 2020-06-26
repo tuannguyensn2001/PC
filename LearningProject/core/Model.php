@@ -29,8 +29,8 @@ class Model
 
     }
     public function doQuery($query){
-        $this->conn->query($query);
-
+        $result=$this->conn->query($query);
+        return $result;
     }
     public  function update($data,$table)
     {
@@ -48,7 +48,26 @@ class Model
         unset($query_array[0]);
         $query=implode(",",$query_array);
         $query="UPDATE $table SET $query WHERE id=$id";
-        $this->doQuery($query);
+
+        $result=$this->doQuery($query);
+            return $result;
+    }
+    public function create($data,$table)
+    {
+
+
+        $column=[];
+        $value=[];
+        foreach($data as $key=>$val){
+            $column[]=$key;
+            $value[]= is_numeric($val) ? $val : "'$val'";
+        }
+        $columnquery=implode(",",$column);
+        $valuequery=implode(",",$value);
+        $query="INSERT INTO $table ($columnquery) VALUES ($valuequery) ";
+
+        $result=$this->doQuery($query);
+
 
     }
 

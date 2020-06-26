@@ -10,6 +10,8 @@ class UserController extends Controller
   {
      $user=$this->model("UserModel");
      $result= $user->checkUser($_POST);
+
+
      if (!empty($result)){
          $_SESSION['isLogin']=true;
          $_SESSION['dataUser']=$result[0];
@@ -25,5 +27,21 @@ class UserController extends Controller
         header('Location: ../');
 
   }
+  public function signUp()
+  {
+      $this->view("Outside/signUp");
+  }
+  public function  signUpAction()
+  {
+      $user=$this->model("UserModel");
+      $course=$this->model("CourseModel");
+
+      if (!empty($_POST)){
+
+          $data=$_POST;
+          $user->createUser($data);
+      }
+  }
+
 
 }

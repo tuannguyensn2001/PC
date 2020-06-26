@@ -15,6 +15,16 @@ LEFT JOIN category cate ON c.category_id=cate.id WHERE c.id=$id";
         }
         return $this->getData($query);
     }
+    public function getCourseByCategory($id)
+    {
+        $query="SELECT * FROM course WHERE category_id=$id";
+        return $this->getData($query);
+    }
+    public function getCourseActive()
+    {
+        $query="SELECT id,name FROM course WHERE is_active =1";
+        return $this->getData($query);
+    }
     public function editCourse($data)
     {
 
@@ -29,7 +39,8 @@ LEFT JOIN category cate ON c.category_id=cate.id WHERE c.id=$id";
            }
         $filenames= $data['typethumbnail']['tmp_name'];
         echo $target_dir;
-            move_uploaded_file($filenames,$target_dir);
+
+           $status= move_uploaded_file($filenames,$target_dir);
 
 
 
@@ -52,4 +63,33 @@ LEFT JOIN category cate ON c.category_id=cate.id WHERE c.id=$id";
        $this->update($data,"course");
 
     }
+    public function createCourse()
+    {
+        $query="INSERT INTO course () VALUES ()";
+        $this->doQuery($query);
+        $query1="SELECT id FROM course ORDER BY id DESC LIMIT 1";
+        $newCourse=$this->getData($query1)[0]['id'];
+
+        $query2="SELECT id,mycourse FROM users ";
+        $userCourseJSON=$this->getData($query2);
+        foreach($userCourseJSON as $value){
+            echo "<pre>";
+            $value['mycourse']=json_decode($value['mycourse'],true);
+
+            $value['mycourse'][$newCourse]=0;
+            $value['mycourse']=json_encode($value['mycourse']);
+            $this->update($value,"users");
+        }
+
+
+
+
+
+
+
+
+
+
+    }
+
 }

@@ -17,8 +17,17 @@ class CourseController extends Controller
                 $isCourse = $myCourse[$id] == 1 ? 1 : 0;
 
                 $lesson['check'] = $isCourse;
+
             }
+//            if ($lesson['check'] == 1)  $this->view("Outside/course",$lesson);
+//            else{
+//                header("Location: ../../../");
+//
+//            }
+
         $this->view("Outside/course",$lesson);
+
+
     }
     public function showMyCourse()
     {
@@ -37,9 +46,8 @@ class CourseController extends Controller
 
             }
         }
-        echo "<pre>";
-        print_r($myCourse);
-        return $myCourse;
+
+        $this->view("Outside/mycourse",$myCourse);
     }
     public function MyCourse($id)
     {
@@ -59,7 +67,7 @@ class CourseController extends Controller
             if ($_SESSION['isLogin'] == true) {
                 $course = $this->MyCourse(array($_SESSION['dataUser']['id']));
                 $id_course = $id[0];
-                $course[$id_course] = $id[1];
+                $course[$id_course] = intval($id[1]);
                 $user = $this->model("UserModel");
                 $data['mycourse'] = $course;
                 $data['id'] = $_SESSION['dataUser']['id'];
@@ -69,5 +77,6 @@ class CourseController extends Controller
             }
         }
     }
+
 
 }

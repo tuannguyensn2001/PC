@@ -99,38 +99,31 @@
 
             <?php require_once "./views/Admin/components/nav.php";?>
 
-            <form action="../AdminPost/createPost" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="">Tiêu đề bài viết</label>
-                    <input type="text" name="title" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="">Mô tả bài viết</label>
-                    <input type="text" name="description" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="">Nội dung bài viết</label>
-                    <textarea name="content" id="editor" class="form-control"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="">Danh mục</label>
-                    <select class="custom-select" name="category_id">
+            <table class="table table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Tên bài viết</th>
+                    <th scope="col">Thể loại</th>
+                    <th scope="col">Hiển thị</th>
+                    <th scope="col">Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($data as $index){ ?>
+                    <tr>
+                        <th scope="row"><?=$index['id']?></th>
+                        <td><?=$index['title']?></td>
 
-                        <?php foreach($data['listCategory'] as $index){ ?>
-                            <option value=<?=$index['id']?>><?=$index['name']?></option>
-                        <?php } ?>
-                    </select>
-                </div>
+                        <td><?=$index['category']?></td>
+                        <td><?php echo $index['is_active'] ==1 ? "Hiển thị" : "Không hiển thị" ?></td>
+                        <td><a href="editPost/<?=$index['id']?>" class="btn btn-warning">SỬA</a></td>
+                    </tr>
+                <?php } ?>
 
-                <hr>
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1" value=1 checked name="is_active">
-                    <label class="custom-control-label" for="customCheck1"  >Hiển thị bài viết</label>
-                </div>
-                <hr>
-                <button type="submit" class="btn btn-success">Thêm mới bài viết</button>
 
-            </form>
+                </tbody>
+            </table>
 
 
 

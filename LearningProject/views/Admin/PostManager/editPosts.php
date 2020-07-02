@@ -1,4 +1,9 @@
+<?php
 
+
+
+
+?>
 
 
 <!DOCTYPE html>
@@ -14,7 +19,7 @@
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="../views/Admin/style.css">
+    <link rel="stylesheet" href="../../views/Admin/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- Font Awesome JS -->
@@ -27,7 +32,7 @@
 <body>
     <div class="wrapper">
 
-        <nav id="sidebar">
+         <nav id="sidebar">
             <div class="sidebar-header">
                 <h3>ADMIN</h3>
             </div>
@@ -38,7 +43,7 @@
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">QUẢN LÝ KHÓA HỌC</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
                         <li>
-                            <a href="../AdminCourse/viewCourse" class="link-viewCourse">Xem các khóa học</a>
+                            <a href="../../AdminCourse/viewCourse" class="link-viewCourse">Xem các khóa học</a>
                         </li>
 
 
@@ -48,7 +53,7 @@
                     <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">QUẢN LÝ NGƯỜI DÙNG</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu1">
                         <li>
-                            <a href="../AdminUser/viewUser" class="link-viewCourse">Xem người dùng</a>
+                            <a href="../../AdminUser/viewUser" class="link-viewCourse">Xem người dùng</a>
                         </li>
 
 
@@ -59,7 +64,7 @@
                     <a href="#homeSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">QUẢN LÝ BÀI GIẢNG</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu3">
                         <li>
-                            <a href="../AdminLesson/viewLesson" class="link-viewCourse">Xem bài giảng</a>
+                            <a href="../../AdminLesson/viewLesson" class="link-viewCourse">Xem bài giảng</a>
                         </li>
 
 
@@ -69,11 +74,11 @@
                     <a href="#homeSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">QUẢN LÝ BÀI VIẾT</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu4">
                         <li>
-                            <a href="../AdminPost/viewPost" class="link-viewCourse">Xem bài viết</a>
+                            <a href="../../AdminPost/viewPost" class="link-viewCourse">Xem bài viết</a>
                         </li>
 
                         <li>
-                            <a href="../AdminPost/addPosts">Thêm bài viết</a>
+                            <a href="../../AdminPost/addPosts">Thêm bài viết</a>
                         </li>
                     </ul>
                 </li>
@@ -99,36 +104,49 @@
 
             <?php require_once "./views/Admin/components/nav.php";?>
 
-            <form action="../AdminPost/createPost" method="post" enctype="multipart/form-data">
+            <form action="../../AdminPost/editPostAction" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="">Tiêu đề bài viết</label>
-                    <input type="text" name="title" class="form-control">
+                    <input type="text" hidden name="id" value=<?=$data['recentPost']['id']?>>
+                    <input type="text" name="title" class="form-control" value="<?=$data['recentPost']['title']?>">
                 </div>
                 <div class="form-group">
                     <label for="">Mô tả bài viết</label>
-                    <input type="text" name="description" class="form-control">
+                    <input type="text" name="description" class="form-control" value="<?=$data['recentPost']['description']?>">
                 </div>
                 <div class="form-group">
                     <label for="">Nội dung bài viết</label>
-                    <textarea name="content" id="editor" class="form-control"></textarea>
+                    <textarea name="content" id="editor" class="form-control" ><?=$data['recentPost']['content']?></textarea>
                 </div>
                 <div class="form-group">
                     <label for="">Danh mục</label>
                     <select class="custom-select" name="category_id">
 
                         <?php foreach($data['listCategory'] as $index){ ?>
-                            <option value=<?=$index['id']?>><?=$index['name']?></option>
+                            <option value=<?=$index['id']?>
+                            <?php
+                            if ($data['recentPost']['category_id'] == $index['id'])
+                                echo "selected";
+                            ?>
+
+                            ><?=$index['name']?></option>
                         <?php } ?>
                     </select>
                 </div>
 
                 <hr>
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1" value=1 checked name="is_active">
+                    <input type="checkbox" class="custom-control-input" id="customCheck1" value=1
+                           <?php
+                           if ($data['recentPost']['is_active'] == 1)
+                               echo "checked";
+                           ?>
+
+                           name="is_active">
                     <label class="custom-control-label" for="customCheck1"  >Hiển thị bài viết</label>
                 </div>
                 <hr>
-                <button type="submit" class="btn btn-success">Thêm mới bài viết</button>
+                <button type="submit" class="btn btn-success">Sửa bài viết</button>
 
             </form>
 

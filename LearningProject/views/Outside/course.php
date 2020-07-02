@@ -42,6 +42,53 @@ if ($id_lesson ==1) $link=$data['lesson'][0]['video'];
                 color: white;
             }
         </style>
+        <style>
+            .users{
+                position: relative;
+                text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+                color: #fff;
+                background-color: #212529;
+            }
+            .users:hover{
+                color: #fff;
+            }
+            .outside-menu-acc{
+                position: absolute;
+                display: none;
+                width: 150px;
+            }
+            .menu-acc{
+
+                text-align: center;
+                list-style-type: none;
+                background-color: #ebebeb;
+
+                display: flex;
+                flex-direction: column;
+            }
+            .menu-acc a{
+                margin-left: 10px;
+                text-decoration: none;
+            }
+            .menu-acc a:hover{
+                color: red;
+            }
+            .menu-acc .btn{
+
+                margin-left: 0;
+                background-color:#e5aa00;
+                box-shadow: 0 3px 6px rgba(27,43,106,0.2);
+                color: #424242;
+                text-shadow: 0 1px rgba(180,0,0,0.16), 0 -1px rgba(255,255,255,0.16);
+                border-top-color: rgba(255,255,255,0.5);
+                border-bottom-color: rgba(180,0,0,0.2);
+            }
+            .menu-acc .btn:hover{
+                color: #424242;
+                box-shadow: 0 6px 14px rgba(27,43,106,0.24);
+                background-color: #ffbd00;
+            }
+        </style>
     </head>
 <body>
     <header>
@@ -62,16 +109,36 @@ if ($id_lesson ==1) $link=$data['lesson'][0]['video'];
                   <a class="nav-link" href="#"><b>Videos</b></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><b>Bài viết</b></a>
+                    <a class="nav-link" href="../../../PostController/viewPost"><b>Bài viết</b></a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#"><b>Liên hệ</b></a>
                   </li>
               </ul>
-              <div >
-                <a href="" class="btn  sign-in"><b>Đăng nhập</b></a>
-                <a href="" class="btn vip-acc"><b>TÀI KHOẢN VIP</b></a>
-              </div>
+                <div >
+                    <?php
+                    if (!isset($_SESSION['isLogin']) || $_SESSION['isLogin']==false){ ?>
+                        <a href="UserController/signIn" class="btn  sign-in"><b>Đăng nhập</b></a>
+                        <a href="" class="btn vip-acc"><b>TÀI KHOẢN VIP</b></a>
+                    <?php   }    else{
+
+                        ?>
+
+                        <a href="" class="btn users"><b>Xin chào <?=$_SESSION['dataUser']['username']?></b>
+
+                        </a>
+                        <div class="outside-menu-acc">
+                            <div class="menu-acc">
+                                <a href="">Tài khoản của tôi</a>
+                                <a href="../../../CourseController/showMyCourse">Khóa học của tôi</a>
+                                <a href="../../../UserController/signOut" class="btn  sign-in"><b>Đăng xuất</b></a>
+                            </div>
+                        </div>
+
+
+                    <?php      }
+                    ?>
+                </div>
              
             </div>
           </nav>
@@ -208,9 +275,24 @@ if ($id_lesson ==1) $link=$data['lesson'][0]['video'];
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script>
+
+    <script >
+        var i = 0;
+        document.querySelector(".users").onclick=function(event){
+            i++;
+            event.preventDefault();
+            var length=$(event.currentTarget).width();
+            document.querySelector(".outside-menu-acc").style.width=length;
+            if (i % 2 ==1 ){
+                document.querySelector(".outside-menu-acc").style.display="block";
+
+            } else{
+                document.querySelector(".outside-menu-acc").style.display="none";
+            }
+        }
 
 
     </script>
+
 </body>
 </html>

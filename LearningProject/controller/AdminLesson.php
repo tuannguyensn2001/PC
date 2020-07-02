@@ -7,6 +7,9 @@ class AdminLesson extends Controller
     var $data;
     public function __construct()
     {
+        if (!isset($_SESSION['adminisLogin']) || $_SESSION['adminisLogin'] == false){
+            header("Location: ../Admin");
+        }
         $this->course=$this->model("AdminCourseModel");
         $this->category=$this->model("AdminCategoryModel");
         $this->lesson=$this->model("AdminLessonModel");

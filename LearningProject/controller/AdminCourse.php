@@ -8,6 +8,9 @@ class AdminCourse extends  Controller
     var $data=array();
     public function __construct()
     {
+        if (!isset($_SESSION['adminisLogin']) || $_SESSION['adminisLogin'] == false){
+            header("Location: ../Admin");
+        }
         $this->category=$this->model("AdminCategoryModel");
 
         $this->course = $this->model("AdminCourseModel");
@@ -17,7 +20,6 @@ class AdminCourse extends  Controller
 
     public function viewCourse()
     {
-
 
         $this->view("Admin/CourseManager/index",$this->data);
     }

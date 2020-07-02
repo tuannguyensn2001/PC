@@ -94,7 +94,7 @@ for($i=0;$i<count($data);$i+=2){
                   <a class="nav-link" href="#"><b>Videos</b></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><b>Bài viết</b></a>
+                    <a class="nav-link" href="PostController/viewPost"><b>Bài viết</b></a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#"><b>Liên hệ</b></a>

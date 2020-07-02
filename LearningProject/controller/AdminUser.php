@@ -7,6 +7,9 @@ class AdminUser extends  Controller
     var $data;
     public function __construct()
     {
+        if (!isset($_SESSION['adminisLogin']) || $_SESSION['adminisLogin'] == false){
+            header("Location: ../Admin");
+        }
         $this->user=$this->model("AdminUserModel");
         $this->course=$this->model("AdminCourseModel");
         $this->data['listUser']=$this->user->getUser();

@@ -1,17 +1,7 @@
-
 <?php
-//echo "<pre>";
-//print_r($data);
-//die;
-$course=[];
-$count=0;
-for($i=0;$i<count($data);$i+=2){
-    $count++;
-    $course[$count][0]=$data[$i];
-    if (isset($data[$i+1]))  $course[$count][1]=$data[$i+1];
-}
-?>
 
+
+?>
 
 <html lang="en">
 <head>
@@ -81,7 +71,7 @@ for($i=0;$i<count($data);$i+=2){
 
         </button>
         <div class="collapse navbar-collapse " id="navbarTogglerDemo01">
-            <a class="navbar-brand" href="../">Hidden brand</a>
+            <a class="navbar-brand" href="../">Code</a>
             <ul class="navbar-nav  ">
                 <li class="nav-item actived">
                     <a class="nav-link" href="#"><b>Trang chủ</b></a>
@@ -126,43 +116,24 @@ for($i=0;$i<count($data);$i+=2){
 </header>
 <section>
     <div class="container content">
-        <div class="content-course">
+        <div class="content-videos">
             <h1>
                 <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
-                <span>Khóa học</span>
+                <span>Bài viết</span>
             </h1>
+            <?php foreach ($data as $index) {?>
+                <a href="viewPost/<?=$index['id']?>">
+                    <div class="content-videos-details">
 
-            <?php foreach($course as $index){ ?>
-                <div class="row">
-                    <?php
-                    $limit=1;
-                    if (isset($index[1])) $limit=2;
+                        <img src=".././views/Outside/img/js.png" alt="" height="100" width="100">
 
-                    for($i=0;$i<$limit;$i++){ ?>
-                        <a href="../CourseController/index/<?=$index[$i]['id']?>/1" class="col-md-6">
-                            <div class="content-course-details">
 
-                                <div class="content-course-details-img">
-                                    <img src="../views/Outside/img/course/<?=$index[$i]['id']?>/thumbnail.png" alt="" height="275" width="100%">
-                                </div>
-
-                                <div class="content-course-details-title"><?=$index[$i]['name']?></div>
-                                <div class="content-course-details-description"><?=$index[$i]['description']?>
-
-                                </div>
-                                <div>
-                                    <div class="content-course-details-status"><?php
-                                        if ($index[$i]['is_active'] == 1) echo "Sẵn sàng";
-                                        else echo "Sắp ra mắt";
-                                        ?></div>
-                                    <div class="content-course-details-price">Giá: <?=$index[$i]['price']?></div>
-                                </div>
-
-                            </div>
-                        </a>
-                    <?php } ?>
-                </div>
-
+                        <div class="main ">
+                            <span class="main-title"><b><?=$index['category']?></b></span>
+                            <span class="main-content"><b><?=$index['title']?></b></span>
+                        </div>
+                    </div>
+                </a>
             <?php } ?>
         </div>
 

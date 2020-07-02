@@ -21,7 +21,9 @@
 <body>
     <div class="wrapper">
         <!-- Sidebar  -->
+
      <?php
+
      require_once ("./views/Admin/components/sidebar.php");
 
      ?>

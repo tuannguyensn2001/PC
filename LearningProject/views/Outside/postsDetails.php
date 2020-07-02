@@ -1,17 +1,9 @@
-
 <?php
-//echo "<pre>";
-//print_r($data);
-//die;
-$course=[];
-$count=0;
-for($i=0;$i<count($data);$i+=2){
-    $count++;
-    $course[$count][0]=$data[$i];
-    if (isset($data[$i+1]))  $course[$count][1]=$data[$i+1];
-}
-?>
 
+
+
+
+?>
 
 <html lang="en">
 <head>
@@ -20,9 +12,9 @@ for($i=0;$i<count($data);$i+=2){
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="../views/Outside/css/style.css">
-    <link rel="stylesheet" href="../views/Outside/css/mediaquery.css">
-    <link rel="stylesheet" href="../views/Outside/css/course-style.css">
+    <link rel="stylesheet" href="../../views/Outside/css/style.css">
+    <link rel="stylesheet" href="../../views/Outside/css/mediaquery.css">
+    <link rel="stylesheet" href="../../views/Outside/css/course-style.css">
     <style>
         .users{
             position: relative;
@@ -69,6 +61,19 @@ for($i=0;$i<count($data);$i+=2){
             box-shadow: 0 6px 14px rgba(27,43,106,0.24);
             background-color: #ffbd00;
         }
+        .intro{
+            margin-top: 0;
+        }
+        .content{
+            margin-top: 20px;
+        }
+        .content-post{
+            width: 90%;
+            margin: 0 auto;
+
+            background-color: #fff;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -81,7 +86,7 @@ for($i=0;$i<count($data);$i+=2){
 
         </button>
         <div class="collapse navbar-collapse " id="navbarTogglerDemo01">
-            <a class="navbar-brand" href="../">Hidden brand</a>
+            <a class="navbar-brand" href="../../">Code</a>
             <ul class="navbar-nav  ">
                 <li class="nav-item actived">
                     <a class="nav-link" href="#"><b>Trang chủ</b></a>
@@ -125,45 +130,16 @@ for($i=0;$i<count($data);$i+=2){
     </nav>
 </header>
 <section>
+    <div class="intro ">
+
+    </div>
     <div class="container content">
-        <div class="content-course">
-            <h1>
-                <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
-                <span>Khóa học</span>
-            </h1>
-
-            <?php foreach($course as $index){ ?>
-                <div class="row">
-                    <?php
-                    $limit=1;
-                    if (isset($index[1])) $limit=2;
-
-                    for($i=0;$i<$limit;$i++){ ?>
-                        <a href="../CourseController/index/<?=$index[$i]['id']?>/1" class="col-md-6">
-                            <div class="content-course-details">
-
-                                <div class="content-course-details-img">
-                                    <img src="../views/Outside/img/course/<?=$index[$i]['id']?>/thumbnail.png" alt="" height="275" width="100%">
-                                </div>
-
-                                <div class="content-course-details-title"><?=$index[$i]['name']?></div>
-                                <div class="content-course-details-description"><?=$index[$i]['description']?>
-
-                                </div>
-                                <div>
-                                    <div class="content-course-details-status"><?php
-                                        if ($index[$i]['is_active'] == 1) echo "Sẵn sàng";
-                                        else echo "Sắp ra mắt";
-                                        ?></div>
-                                    <div class="content-course-details-price">Giá: <?=$index[$i]['price']?></div>
-                                </div>
-
-                            </div>
-                        </a>
-                    <?php } ?>
-                </div>
-
-            <?php } ?>
+        <div class="content-post">
+            <h4><?=$data['title']?></h4>
+            <h6><?=$data['description']?></h6>
+            <div class="details-content">
+                <?=$data['content']?>
+            </div>
         </div>
 
     </div>

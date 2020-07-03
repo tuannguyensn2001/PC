@@ -101,30 +101,32 @@
             <!--            </ul>-->
         </nav>
 
+
         <!-- Page Content  -->
         <div id="content">
 
             <?php require_once "./views/Admin/components/nav.php";?>
-            <?php if (isset($_COOKIE['failed_admin'])){ ?>
-                <div class="alert alert-danger" role="alert" >
-                    Bạn không có quyền này
-                </div>
+            <?php
+           if ( isset($_COOKIE['editUser '])){ ?>
+
+
+            <h5><?=$_COOKIE['editUser']?></h5>
             <?php } ?>
             <table class="table table-striped table-dark">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Tên khóa học</th>
-                    <th scope="col">Thể loại</th>
-                    <th scope="col"><a href="createCourse" class="btn btn-primary">Thêm mới</a></th>
+                    <th scope="col">Tên tài khoản</th>
+
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($data['listCourse'] as $index){ ?>
+                <?php foreach ($data['listadmin'] as $index){ ?>
                     <tr>
                         <th scope="row"><?=$index['id']?></th>
-                        <td><?=$index['name']?></td>
-                        <td><?=$index['category']?></td>
+                        <td><?=$index['username']?></td>
+
                         <td ><button class="btn btn-primary view-details" content="<?=$index['id']?>" data-toggle="modal" data-target="#exampleModal"><i class='fas fa-eye ' style='font-size:24px'  ></i></button>
 
                         </td>
@@ -144,48 +146,21 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="alert alert-danger alert-2" role="alert" style="display: none">
-                            Bạn không có quyền này
-                        </div>
-                        <form action="editCourse" method="post" enctype="multipart/form-data">
+                        <form action="editAdmin" method="post" enctype="multipart/form-data">
                             <input type="text" class="info-id" hidden name="id">
                         <div class="modal-body">
-                           <div class="form-group d-flex justify-content-evenly">
-                               <label for=""><img src="" alt="" class="info-img" width="200" height="100"></label>
-                               <input type="file"  width="200" name="thumbnail">
-                           </div>
-                            <div class="form-group">
-                                <label for="">Khóa học</label>
-                                <input type="text" name="name" class="info-name form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="category">Danh mục</label>
-                                <select name="category_id" id="category">
-                            <?php foreach ($data['listCategory'] as $index){ ?>
-                                <option value=<?=$index['id']?>><?=$index['name']?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Mô tả khóa học</label>
-<!--                                <input type="text" name="description" class="info-description form-control" style="height:200px; max-width: 100%">-->
-                                <textarea name="description" id="" cols="30" rows="10" class="info-description form-control" ></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Học phí</label>
-                                <input type="text" name="price" class="info-price form-control">
-                            </div>
-                            <div class="form-group d-flex">
+                            <?php foreach ($data['listRole'] as $index){ ?>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="<?=$index['id']?>" id="role-<?=$index['id']?>" value="<?=$index['id']?>"  >
+                                    <label class="form-check-label" for="<?=$index['id']?>">
+                                        <?=$index['name']?>
+                                    </label>
+                                </div>
+                            <?php } ?>
 
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="customRadioInline1" name="is_active" class="custom-control-input info-active" value=1>
-                                    <label class="custom-control-label" for="customRadioInline1">Sẵn sàng</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="customRadioInline2" name="is_active" class="custom-control-input info-active" value=0>
-                                    <label class="custom-control-label" for="customRadioInline2">Chưa sẵn sàng</label>
-                                </div>
-                            </div>
+
+
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -208,73 +183,43 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 
     <script >
-        var category=document.getElementsByTagName("option");
-        var active = document.getElementsByClassName("info-active");
-        var elementClear =[category,active];
+        var elementCheckbox=document.querySelectorAll(".form-check > input");
         $(document).ready(function () {
-            $("textarea").focus(function(){
-                console.log($(this).val());
-            })
+
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
 
             });
-        $(".view-details").click(function () {
-               var content = $(this).attr("content");
-                elementClear.forEach(function(index){
-                    for(let j of index){
-                        j.removeAttribute("checked");
-                        j.removeAttribute("selected");
+            $(".view-details").click(function () {
+                for(let i of elementCheckbox){
+                    i.removeAttribute("checked");
+                }
+                var id=$(this).attr("content");
+                $.ajax({
+                    type: "POST",
+                    url: "showAdmin",
+                    data: {
+                        id,
+                    },
+                    success: function (data) {
+                        var result = JSON.parse(data);
+                       let id=document.querySelector(".info-id");
+                       id.setAttribute("value",result['id']);
+                        result['myrole']=JSON.parse(result['myrole']);
+                        for(let i in result['myrole']) {
+                            let element = document.getElementById("role-" + i);
+
+                            if (result['myrole'][i] == 1 && element) {
+                                element.setAttribute("checked", "checked");
+                            }
+
+                        }
+
+
                     }
                 })
-               $.ajax({
-                   type:"POST",
-                   url: "showCourse",
-                   data:{
-                        content,
-                   },
-                   success:function (fill) {
-                    var result=JSON.parse(fill);
-                    console.log(result);
-                  if (result != 0){
-                       result=JSON.parse(fill)['courseDetails'];
-                      for(let i in result){
-                          if (parseInt(result[i])) result[i] = parseInt(result[i]);
-                      }
+            })
 
-                      $(".info-id").attr("value",result['id']);
-
-                      $(".info-img").attr("src","../views/Outside/img/course/"+result['id']+"/thumbnail."+result['typethumbnail']);
-                      $(".info-name").attr("value",result['name']);
-                      for (let i of category){
-
-                          if (i.value == result['category_id']){
-                              i.setAttribute("selected","selected");
-
-                          }
-                      }
-                      $(".info-description").val(result['description']);
-                      $(".info-price").val(result['price']);
-
-
-
-                      for(let j of active){
-                          if (j.value == result['is_active']){
-                              j.setAttribute("checked","checked");
-                          }
-
-                      }
-                  } else{
-                      $("form").hide();
-                      document.querySelector(".alert-2").style.display="block";
-                  }
-
-                   },
-                   error:function(){
-                       console.log("loi roi");
-                   }
-               })
-        });
         });
 
 

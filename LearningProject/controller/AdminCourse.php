@@ -6,10 +6,17 @@ class AdminCourse extends  Controller
     var $course;
     var $category;
     var $data=array();
+    var $adminRole;
     public function __construct()
     {
         if (!isset($_SESSION['adminisLogin']) || $_SESSION['adminisLogin'] == false){
             header("Location: ../Admin");
+        } else{
+
+            if ($_SESSION['adminInfo']['role'] != "Manager"){
+                $this->adminRole=json_decode($_SESSION['adminInfo']['myrole'],true);
+            }
+
         }
         $this->category=$this->model("AdminCategoryModel");
 
@@ -30,11 +37,14 @@ class AdminCourse extends  Controller
     }
     public function showCourse()
     {
+        $id_role=2;
+        if (!isset($this->adminRole[$id_role])){
+            $courseDetails=0;
+        } else {
 
-
-        $id=$_POST['content'];
-        $courseDetails['courseDetails']=$this->course->getCourse($id)[0];
-//        $courseDetails['listCategory']=$category->getCategory();
+            $id = $_POST['content'];
+            $courseDetails['courseDetails'] = $this->course->getCourse($id)[0];
+        }
         echo json_encode($courseDetails);
     }
     public function editCourse()
@@ -58,10 +68,16 @@ class AdminCourse extends  Controller
     }
     public function createCourse()
     {
-     $this->course->createCourse();
+        $id_role = 1;
+        if (!isset($this->adminRole[$id_role])) {
+            setcookie("failed_admin", "Bạn không có quyền này", time() + 10);
+        } else {
 
+            $this->course->createCourse();
+        }
 
-     header("Location: viewCourse");
+            header("Location: viewCourse");
+
     }
 
 

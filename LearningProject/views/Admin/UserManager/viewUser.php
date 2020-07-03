@@ -27,7 +27,9 @@
         .information{
             display: none;
         }
-
+        .alert-danger{
+            display: none;
+        }
     </style>
 
 </head>
@@ -127,7 +129,7 @@
                         <th scope="row"><?=$index['id']?></th>
                         <td><?=$index['username']?></td>
                         <td><?=$index['email']?></td>
-                        <td ><button class="btn btn-primary view-details" content="<?=$index['id']?>" data-toggle="modal" data-target="#exampleModal"><i class='fas fa-eye ' style='font-size:24px'  ></i></button>
+                        <td ><button class="btn btn-primary view-details" content="<?=$index['id']?>" data-toggle="modal" data-target="#viewUser"><i class='fas fa-eye ' style='font-size:24px'  ></i></button>
 
                         </td>
 
@@ -137,14 +139,17 @@
                 </tbody>
             </table>
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="viewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa khóa học</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa người dùng</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
+                        </div>
+                        <div class="alert alert-danger" role="alert">
+                           Bạn không có quyền này
                         </div>
                         <form action="editUser" method="post" enctype="multipart/form-data">
                             <input type="text" class="info-id" hidden name="id">
@@ -207,7 +212,8 @@
                 $('#sidebar').toggleClass('active');
 
             });
-            $(".view-details").click(function () {
+            $(".view-details").click(function (e) {
+
                 for(let i of elementCheckbox){
                     i.removeAttribute("checked");
                 }
@@ -220,19 +226,26 @@
                     },
                     success: function (data) {
                         var result = JSON.parse(data);
-                        result['mycourse'] = JSON.parse(result['mycourse']);
-                        var mycourse = [];
-                        document.querySelector(".info-id").setAttribute("value",result['id']);
-                        document.querySelector(".info-username").setAttribute("value",result['username']);
-                        document.querySelector(".info-email").setAttribute("value",result['email']);
-                        for(let i in result['mycourse']) {
-                            let element = document.getElementById("course-" + i);
+                      if (result != 0){
+                          result['mycourse'] = JSON.parse(result['mycourse']);
+                          var mycourse = [];
+                          document.querySelector(".info-id").setAttribute("value",result['id']);
+                          document.querySelector(".info-username").setAttribute("value",result['username']);
+                          document.querySelector(".info-email").setAttribute("value",result['email']);
+                          for(let i in result['mycourse']) {
+                              let element = document.getElementById("course-" + i);
 
-                            if (result['mycourse'][i] == 1 && element) {
-                                element.setAttribute("checked", "checked");
-                            }
+                              if (result['mycourse'][i] == 1 && element) {
+                                  element.setAttribute("checked", "checked");
+                              }
 
-                        }
+                          }
+                      } else{
+                         $("form").hide();
+                         document.querySelector(".alert-danger").style.display="block";
+
+
+                      }
                     }
                 })
             })

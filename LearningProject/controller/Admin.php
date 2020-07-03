@@ -30,6 +30,7 @@ class Admin extends Controller
 
            } else{
                $_SESSION['adminisLogin']=true;
+               $_SESSION['adminInfo']=$result[0];
                header("Location: ../Admin");
            }
     }

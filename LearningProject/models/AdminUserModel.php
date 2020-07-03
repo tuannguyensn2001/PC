@@ -24,4 +24,13 @@ class AdminUserModel extends Model
 
 
     }
+    public function getAdmin($id='')
+    {
+        $query= empty($id) ? "SELECT * FROM admin WHERE role='admin'" : "SELECT * FROM admin WHERE id=$id ";
+        return $this->getData($query);
+    }
+    public function editAdmin($data)
+    {
+        $this->update($data,"admin");
+    }
 }

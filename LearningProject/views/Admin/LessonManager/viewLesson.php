@@ -155,6 +155,12 @@
             </select>
             <div class="lesson">
                 <div class="col-md-3">  <a href="" class="btn btn-danger addLesson">Thêm mới</a></div>
+                <div class="alert alert-danger alert-1" role="alert" style="display: none">
+                    Bạn không có quyền thêm mới bài giảng
+                </div>
+                <div class="alert alert-danger alert-2" role="alert" style="display: none">
+                    Bạn không có quyền xem bài giảng
+                </div>
                 <form action="editLesson" method="post">
 
                     <table class="table table-borderless">
@@ -236,7 +242,7 @@
                    i.remove();
                }
                 document.querySelector(".addLesson").style.display="block";
-               document.querySelector(".save").style.display="block";
+
                 var lesson_id=$(this).val();
                 $.ajax({
                     type: "POST",
@@ -245,52 +251,58 @@
                         lesson_id
                     },
                     success: function (data) {
-                    var lesson=JSON.parse(data);
+                        if (data != 0) {
+                            var lesson=JSON.parse(data);
 
-                    for(let i of lesson){
-                        let tr=document.createElement("tr");
-                        let td1=document.createElement("td");
-                        let td2=document.createElement("td");
-                        let td3=document.createElement("td");
-                        td3.className="action";
-                        let input1=document.createElement("input");
-                        input1.className="form-control";
-                        input1.value=i['name'];
-                        input1.name="name-"+i['id'];
-                        let input2=document.createElement("input");
-                        input2.className="form-control";
-                        input2.value=i['video'];
-                        input2.name="video-"+i['id'];
-                        let choice1=document.createElement("input");
-                        choice1.type="radio";
-                        choice1.name="is_active-"+i['id'];
-                        choice1.value=1;
-                        let choice2=document.createElement("input");
-                        choice2.type="radio";
-                        choice2.name="is_active-"+i['id'];
-                        if (i['is_active'] == 1) choice1.checked=true;
-                        else choice2.checked=true;
-                        choice2.value=0;
+                            for(let i of lesson){
+                                document.querySelector(".save").style.display="block";
+                                let tr=document.createElement("tr");
+                                let td1=document.createElement("td");
+                                let td2=document.createElement("td");
+                                let td3=document.createElement("td");
+                                td3.className="action";
+                                let input1=document.createElement("input");
+                                input1.className="form-control";
+                                input1.value=i['name'];
+                                input1.name="name-"+i['id'];
+                                let input2=document.createElement("input");
+                                input2.className="form-control";
+                                input2.value=i['video'];
+                                input2.name="video-"+i['id'];
+                                let choice1=document.createElement("input");
+                                choice1.type="radio";
+                                choice1.name="is_active-"+i['id'];
+                                choice1.value=1;
+                                let choice2=document.createElement("input");
+                                choice2.type="radio";
+                                choice2.name="is_active-"+i['id'];
+                                if (i['is_active'] == 1) choice1.checked=true;
+                                else choice2.checked=true;
+                                choice2.value=0;
 
-                        document.querySelector("tbody").appendChild(tr);
-                        td1.appendChild(input1);
-                        td2.appendChild(input2);
-                        td3.appendChild(choice1);
-                        td3.appendChild(choice2);
-                        tr.appendChild(td1);
-                        tr.appendChild(td2);
-                        tr.appendChild(td3);
+                                document.querySelector("tbody").appendChild(tr);
+                                td1.appendChild(input1);
+                                td2.appendChild(input2);
+                                td3.appendChild(choice1);
+                                td3.appendChild(choice2);
+                                tr.appendChild(td1);
+                                tr.appendChild(td2);
+                                tr.appendChild(td3);
 
 
 
-                    }
+                            }
+                        } else{
+                            document.querySelector(".alert-2").style.display="block";
+                            document.getElementsByTagName("thead")[0].style.display="none";
+                        }
                     }
                 })
             })
             $(".addLesson").click(function (event) {
                 event.preventDefault();
                 let id_course=document.getElementById("course").value;
-                console.log(id_course);
+
                 $.ajax({
                     type:"POST",
                     url: "addLesson",
@@ -298,38 +310,43 @@
                         id_course,
                     },
                     success:function (data) {
-                        let id=data;
-                        let tr=document.createElement("tr");
-                        let td1=document.createElement("td");
-                        let td2=document.createElement("td");
-                        let td3=document.createElement("td");
-                        td3.className="action";
-                        let input1=document.createElement("input");
-                        input1.className="form-control";
+                       if (data != 0){
+                           document.querySelector(".save").style.display="block";
+                           let id=data;
+                           let tr=document.createElement("tr");
+                           let td1=document.createElement("td");
+                           let td2=document.createElement("td");
+                           let td3=document.createElement("td");
+                           td3.className="action";
+                           let input1=document.createElement("input");
+                           input1.className="form-control";
 
-                        input1.name="name-"+id;
-                        let input2=document.createElement("input");
-                        input2.className="form-control";
+                           input1.name="name-"+id;
+                           let input2=document.createElement("input");
+                           input2.className="form-control";
 
-                        input2.name="video-"+id;
-                        let choice1=document.createElement("input");
-                        choice1.type="radio";
-                        choice1.name="is_active-"+id;
-                        choice1.value=1;
+                           input2.name="video-"+id;
+                           let choice1=document.createElement("input");
+                           choice1.type="radio";
+                           choice1.name="is_active-"+id;
+                           choice1.value=1;
 
-                        let choice2=document.createElement("input");
-                        choice2.type="radio";
-                        choice2.name="is_active-"+id;
-                        choice2.value=0;
+                           let choice2=document.createElement("input");
+                           choice2.type="radio";
+                           choice2.name="is_active-"+id;
+                           choice2.value=0;
 
-                        document.querySelector("tbody").appendChild(tr);
-                        td1.appendChild(input1);
-                        td2.appendChild(input2);
-                        td3.appendChild(choice1);
-                        td3.appendChild(choice2);
-                        tr.appendChild(td1);
-                        tr.appendChild(td2);
-                        tr.appendChild(td3);
+                           document.querySelector("tbody").appendChild(tr);
+                           td1.appendChild(input1);
+                           td2.appendChild(input2);
+                           td3.appendChild(choice1);
+                           td3.appendChild(choice2);
+                           tr.appendChild(td1);
+                           tr.appendChild(td2);
+                           tr.appendChild(td3);
+                       } else{
+                           document.querySelector(".alert-1").style.display="block";
+                       }
                     }
                 })
             })

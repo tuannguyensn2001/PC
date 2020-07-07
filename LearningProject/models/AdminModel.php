@@ -10,4 +10,15 @@ class AdminModel extends Model
       $query="SELECT * FROM admin WHERE username='$username' AND password='$password'";
       return $this->getData($query);
     }
+    public function getManager()
+    {
+        $query="SELECT * FROM admin WHERE role='Manager'";
+        return $this->getData($query);
+    }
+    public function updateRoleManager($data)
+    {
+        foreach ($data as $index){
+            $this->update($index,"admin");
+        }
+    }
 }

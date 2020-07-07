@@ -25,4 +25,9 @@ class AdminLessonModel extends  Model
         $query="SELECT id FROM learning ORDER BY id DESC LIMIT 1";
         return $this->getData($query);
     }
+    public function countLesson()
+    {
+        $query="SELECT COUNT(id) AS NumberOfLesson FROM learning";
+        return $this->getData($query);
+    }
 }

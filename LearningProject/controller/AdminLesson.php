@@ -11,9 +11,7 @@ class AdminLesson extends Controller
             header("Location: ../Admin");
         } else{
 
-            if ($_SESSION['adminInfo']['role'] != "Manager"){
-                $this->adminRole=json_decode($_SESSION['adminInfo']['myrole'],true);
-            }
+            $this->adminRole=json_decode($_SESSION['adminInfo']['myrole'],true);
 
         }
         $this->course=$this->model("AdminCourseModel");
@@ -46,7 +44,7 @@ class AdminLesson extends Controller
     }
     public function  editLesson()
     {
-        if (empty($_POST)) {
+        if (!empty($_POST)) {
             $data = [];
 
 
@@ -65,10 +63,14 @@ class AdminLesson extends Controller
                 $data[$i]['is_active'] = $data[$i][2];
                 unset($data[$i][0], $data[$i][1], $data[$i][2]);
             }
+
+//            echo "<pre>";
+//            print_r($data);
+//            die;
+            $this->lesson->editLesson($data);
+
+
         }
-        $this->lesson->editLesson($data);
-
-
     }
     public function  indexName($str)
     {

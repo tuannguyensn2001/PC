@@ -3,7 +3,7 @@
 
         <button type="button" id="sidebarCollapse" class="btn btn-info">
             <i class="fas fa-align-left"></i>
-            <span>Toggle Sidebar</span>
+            <span>Ẩn cửa sổ</span>
         </button>
         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-align-justify"></i>
@@ -12,16 +12,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Page</a>
+                    <a class="nav-link" href="#">Xin chào <?=$_SESSION['adminInfo']['username']?></a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Page</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Page</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="Admin/adminLogout">Đăng xuất</a>
+                    <a class="nav-link logout" href="../Admin/adminLogout">Đăng xuất</a>
                 </li>
             </ul>
         </div>

@@ -13,9 +13,7 @@ class AdminCourse extends  Controller
             header("Location: ../Admin");
         } else{
 
-            if ($_SESSION['adminInfo']['role'] != "Manager"){
-                $this->adminRole=json_decode($_SESSION['adminInfo']['myrole'],true);
-            }
+            $this->adminRole=json_decode($_SESSION['adminInfo']['myrole'],true);
 
         }
         $this->category=$this->model("AdminCategoryModel");
@@ -27,6 +25,7 @@ class AdminCourse extends  Controller
 
     public function viewCourse()
     {
+
 
         $this->view("Admin/CourseManager/index",$this->data);
     }
@@ -59,6 +58,7 @@ class AdminCourse extends  Controller
        $this->course->editCourse($data);
 
        header("Location: viewCourse");
+       exit();
 
     }
     public function addCourse()
@@ -78,6 +78,12 @@ class AdminCourse extends  Controller
 
             header("Location: viewCourse");
 
+    }
+    public function deleteCourse($data)
+    {
+        $id=$data[0];
+      $this->course->deleteCourse($id);
+      header("Location: ../viewCourse");
     }
 
 

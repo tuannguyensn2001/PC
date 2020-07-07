@@ -16,6 +16,25 @@
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <style>
+        #content > div{
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .card-text{
+            color: white;
+
+        }
+        .card{
+            width: 200px;
+            height: auto;
+        }
+        .card-body h5{
+            font-size: 30px;
+        }
+    </style>
+
+
 </head>
 
 <body>
@@ -32,8 +51,45 @@
         <div id="content">
 
             <?php require_once "./views/Admin/components/nav.php";?>
+            <div>
+                <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
 
-        </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><?=$data['NumberOfCourse']?></h5>
+                        <div class="card-text">Khóa học</div>
+                    </div>
+                </div>
+                <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+
+                    <div class="card-body">
+                        <h5 class="card-title"><?=$data['NumberOfUser']?></h5>
+                    <div class="card-text">Người dùng</div>
+                    </div>
+                </div>
+                <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+
+                    <div class="card-body">
+                        <h5 class="card-title"><?=$data['NumberOfPost']?></h5>
+                     <div class="card-text">Bài viết</div>
+                    </div>
+                </div>
+                <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
+
+                    <div class="card-body">
+                        <h5 class="card-title"><?=$data['NumberOfLesson']?></h5>
+                        <div class="card-text">Bài giảng</div>
+                    </div>
+                </div>
+                <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+
+                    <div class="card-body">
+                        <h5 class="card-title"><?=$data['NumberOfCategory']?></h5>
+                        <div class="card-text">Chủ đề</div>
+                    </div>
+                </div>
+            </div>
+
+
     </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -48,7 +104,19 @@
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
+            $(".logout").attr("href","Admin/adminLogout");
         });
+        let link=document.querySelectorAll(".active li a");
+        let link2=document.querySelectorAll(".sidebar-header a");
+        document.getElementById("AdminPage").setAttribute("href","Admin");
+        for(let i of link){
+
+            let linkSidebar=i.getAttribute("href");
+            linkSidebar=linkSidebar.replace("../","");
+
+            i.setAttribute("href",linkSidebar);
+        }
+
     </script>
 </body>
 

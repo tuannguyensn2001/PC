@@ -11,9 +11,7 @@ class AdminUser extends  Controller
             header("Location: ../Admin");
         } else{
 
-           if ($_SESSION['adminInfo']['role'] != "Manager"){
-               $this->adminRole=json_decode($_SESSION['adminInfo']['myrole'],true);
-           }
+            $this->adminRole=json_decode($_SESSION['adminInfo']['myrole'],true);
 
         }
         $this->role=$this->model("AdminRoleModel");

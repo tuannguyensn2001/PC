@@ -183,6 +183,8 @@ for($i=0;$i<count($data);$i+=2){
 
                        for($i=0;$i<$limit;$i++){
                            if ($index[$i]['is_active'] == 1) {
+
+
                            ?>
                            <a href="./CourseController/index/<?=$index[$i]['id']?>/1" class="col-md-6">
                                <?php } else{ ?>
@@ -191,7 +193,7 @@ for($i=0;$i<count($data);$i+=2){
                                <div class="content-course-details">
 
                                    <div class="content-course-details-img">
-                                       <img src="./views/Outside/img/course/<?=$index[$i]['id']?>/thumbnail.png" alt="" height="275" width="100%">
+                                       <img src="./views/Outside/img/course/<?=$index[$i]['id']?>/thumbnail.<?=$index[$i]['typethumbnail']?>" alt="" height="275" width="100%">
                                    </div>
 
                                    <div class="content-course-details-title"><?=$index[$i]['name']?></div>

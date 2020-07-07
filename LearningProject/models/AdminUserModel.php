@@ -33,4 +33,9 @@ class AdminUserModel extends Model
     {
         $this->update($data,"admin");
     }
+    public function countUser()
+    {
+        $query="SELECT COUNT(id) AS NumberOfUser FROM users";
+        return $this->getData($query);
+    }
 }

@@ -24,4 +24,9 @@ class AdminPostModel extends Model
     public function  editPost($data){
         $this->update($data,"posts");
     }
+    public function countPost()
+    {
+        $query="SELECT COUNT(id) AS NumberOfPost FROM posts";
+        return $this->getData($query);
+    }
 }

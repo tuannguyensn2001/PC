@@ -3,8 +3,29 @@
 
 class Admin extends Controller
 {
+    var $data;
+    var $users,$courses,$lessons,$posts,$categories;
     public function __construct()
     {
+//            $this->categories=$this->model("AdminCategoryModel");
+//            $this->data['NumberOfCategories']=$this->categories->countCategories()[0]['NumberOfCategories'];
+           $array=[
+               "User"=>"users",
+               "Course"=>"courses",
+               "Lesson"=>"lessons",
+               "Post"=>"posts",
+               "Category"=>"categories",
+           ];
+
+           foreach($array as $index=>$value){
+               $this->$value=$this->model("Admin".$index."Model");
+                $func="count$index";
+
+               $this->data['NumberOf'.$index]=$this->$value->$func()[0]['NumberOf'.$index];
+
+           }
+
+
 
     }
 
@@ -13,7 +34,8 @@ class Admin extends Controller
         if (!isset($_SESSION['adminisLogin']) || $_SESSION['adminisLogin'] == false)
         $this->view("Admin/login");
         else{
-            $this->view("Admin/index");
+
+            $this->view("Admin/index",$this->data);
         }
     }
     public function adminLogin()
@@ -31,6 +53,7 @@ class Admin extends Controller
            } else{
                $_SESSION['adminisLogin']=true;
                $_SESSION['adminInfo']=$result[0];
+
                header("Location: ../Admin");
            }
     }
@@ -41,6 +64,22 @@ class Admin extends Controller
     {
         unset($_SESSION['adminisLogin']);
         header("Location: ../Admin");
+    }
+    public function setManager()
+    {
+        $myrole=[];
+        $admin=$this->model("AdminModel");
+        $role=$this->model("AdminRoleModel");
+        $dataRole=$role->getRole();
+        foreach ($dataRole as $index){
+            $myrole[$index['id']]=1;
+        }
+        $myrole=json_encode($myrole);
+        $listAdmin=$admin->getManager();
+        foreach ($listAdmin as &$index){
+            $index['myrole']=$myrole;
+        }
+        $admin->updateRoleManager($listAdmin);
     }
 
 
